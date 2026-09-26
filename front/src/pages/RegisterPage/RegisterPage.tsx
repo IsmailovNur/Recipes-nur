@@ -57,11 +57,9 @@ export const RegisterPage = () => {
     if (!state.username.trim()) {
       return;
     }
-
     if (!state.password.trim()) {
       return;
     }
-
     if (!state.displayName.trim()) {
       return;
     }
@@ -79,10 +77,7 @@ export const RegisterPage = () => {
       navigate(AppRoutes.main);
 
     } catch (error) {
-      console.log(
-        'RegisterPage Error',
-        error
-      );
+      console.log('RegisterPage Error', error);
     }
   };
 
@@ -240,7 +235,8 @@ export const RegisterPage = () => {
             disabled={
               !state.username.trim() ||
               !state.password.trim() ||
-              !state.displayName.trim()
+              !state.displayName.trim() ||
+              !state.avatar
             }
           >
             Sign Up

@@ -96,14 +96,14 @@ commentsRouter.delete("/:id", auth, async (req: RequestWithUser, res) => {
 
 
     const currentUserId = req.user!._id.toString();
-    const isAuthor = comment.author._id.toString() === currentUserId;
+    const isAuthor = comment.author.toString() === currentUserId;
     const isRecipeAuthor = recipe.author.toString() === currentUserId;
 
     if (!isAuthor && !isRecipeAuthor) {
       return res.status(403).send({error: 'Only isAuthors can delete comment!'});
     }
 
-    await Comment.deleteOne()
+    await comment.deleteOne()
     return res.send({message: 'Comment deleted successfully!'});
 
   } catch (err) {

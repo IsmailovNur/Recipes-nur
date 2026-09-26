@@ -35,8 +35,6 @@ const AppHeader = () => {
   const displayName = user?.displayName || user?.username || 'User';
   const avatarSrc = getImageUrl(user?.avatar);
 
-  console.log(user)
-
   return (
     <Box component="header" sx={{mb: 2, borderBottom: '1px solid #fff'}}>
       <Container maxWidth='lg'>
@@ -63,7 +61,7 @@ const AppHeader = () => {
               <>
                 <Box sx={{display: 'flex', alignItems: 'center', gap: 1}}>
                   <Avatar src={avatarSrc} alt={displayName}>
-                    {displayName.charAt(0).toUpperCase()}
+                    {!user.avatar && displayName.charAt(0).toUpperCase()}
                   </Avatar>
 
                   <Typography variant="body1">

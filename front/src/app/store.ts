@@ -12,6 +12,7 @@ import {
 } from 'redux-persist';
 import type { WebStorage } from "redux-persist/es/types";
 import storageModule from 'redux-persist/lib/storage';
+import { recipeReducer } from "../entities/Recipe/recipeSlice.ts";
 
 const storage: WebStorage =
   (storageModule as unknown as {
@@ -20,6 +21,7 @@ const storage: WebStorage =
 
 const rootReducer = combineReducers({
   user: userReducer,
+  recipe: recipeReducer,
 });
 
 const persistConfig = {

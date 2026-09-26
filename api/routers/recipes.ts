@@ -4,6 +4,7 @@ import { auth, authOptional } from "../middlewares/auth";
 import { RequestWithUser } from "../types";
 import { Types } from "mongoose";
 import { upload } from "../multer";
+import { Comment } from "../models/Comment";
 
 const recipesRouter = Router();
 
@@ -21,7 +22,7 @@ recipesRouter.get('/', authOptional, async (req: RequestWithUser, res) => {
       filter.author = author;
     }
 
-    const recipes = await Recipe.find(filter).populate('author', 'displayName');
+    const recipes = await Recipe.find(filter).populate('author', 'username displayName avatar');
     return res.send(recipes);
 
   } catch (err) {
@@ -38,7 +39,7 @@ recipesRouter.get('/:id', authOptional, async (req: RequestWithUser, res) => {
       return res.status(400).send({error: "Invalid recipe ID!"});
     }
 
-    const recipe = await Recipe.findById(id).populate('author', 'displayName');
+    const recipe = await Recipe.findById(id).populate('author', 'username displayName avatar');
 
     if (!recipe || !recipe.author) {
       return res.status(404).send({error: 'Recipe not found!'});
@@ -109,6 +110,9 @@ recipesRouter.delete(
       if (recipe.author.toString() !== req.user!._id.toString()) {
         return res.status(403).send({error: 'You can delete only your own recipes!',});
       }
+
+      await Comment.deleteMany({recipe: recipe._id});
+
       await recipe.deleteOne();
       return res.send({message: "Recipe deleted!"});
 

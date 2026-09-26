@@ -1,10 +1,7 @@
+import type { RecipeAuthor } from "../Recipe/types.ts";
+
 export interface Comment {
-  author: {
-    _id: string;
-    username: string;
-    displayName: string;
-    avatar: File;
-  };
+  author: RecipeAuthor;
   recipe: string;
   text: string;
   createdAt: string;

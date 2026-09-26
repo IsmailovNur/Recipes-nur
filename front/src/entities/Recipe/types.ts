@@ -1,6 +1,14 @@
+export interface RecipeAuthor {
+  _id: string;
+  displayName: string;
+  username?: string;
+  avatar?: string | null;
+}
+
 export interface Recipe {
-  author: string;
+  _id: string;
+  author: RecipeAuthor;
   title: string;
-  image: File | null;
+  image: string | null;
   recipe: string;
 }
