@@ -21,7 +21,6 @@ createRoot(document.getElementById("root")!).render(
           persistor={persistor}
         >
           <CssBaseline />
-
           <App />
         </PersistGate>
       </Provider>
