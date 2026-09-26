@@ -73,7 +73,7 @@ const AppHeader = () => {
 
                 <Button
                   component={Link}
-                  to={AppRoutes.main}
+                  to={AppRoutes.newRecipe}
                   color="inherit"
                 >Add new recipe</Button>
 

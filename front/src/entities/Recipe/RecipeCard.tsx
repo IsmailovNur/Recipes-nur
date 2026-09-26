@@ -2,7 +2,6 @@ import { Card, Link, CardContent, CardMedia, Typography } from "@mui/material";
 import type { Recipe } from "./types";
 import { Link as RouterLink } from "react-router-dom";
 import { getImageUrl } from "../../shared/utils";
-import { AppRoutes } from "../../routing/routes.ts";
 
 
 interface RecipeProps {
@@ -14,7 +13,7 @@ export const RecipeCard = ({recipe}: RecipeProps) => {
     <Card>
       <CardMedia
         component={RouterLink}
-        to={AppRoutes.main}
+        to={`/recipes/${recipe._id}`}
         image={getImageUrl(recipe.image)}
         sx={{
           height: 250,
@@ -23,6 +22,7 @@ export const RecipeCard = ({recipe}: RecipeProps) => {
           alignItems: "center",
           objectFit: "contain",
           objectPosition: "center",
+          textAlign:"center",
         }}
       />
 
@@ -31,7 +31,7 @@ export const RecipeCard = ({recipe}: RecipeProps) => {
         <Link
           variant="h6"
           component={RouterLink}
-          to={AppRoutes.main}
+          to={`/recipes/${recipe._id}`}
           sx={{display: "block", mb: 1}}
         >
           {recipe.title}
@@ -41,7 +41,7 @@ export const RecipeCard = ({recipe}: RecipeProps) => {
           By:{" "}
           <Link
             component={RouterLink}
-            to={AppRoutes.main}
+            to={`/users/${recipe.author._id}`}
           >
             {recipe.author.displayName}
           </Link>

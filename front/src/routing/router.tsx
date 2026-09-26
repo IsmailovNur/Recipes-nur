@@ -5,6 +5,8 @@ import { NotFoundPage } from "../pages/NotFoundPage/NotFoundPage.tsx";
 import { MainPage } from "../pages/MainPage/MainPage.tsx";
 import { RegisterPage } from "../pages/RegisterPage/RegisterPage.tsx";
 import { LoginPage } from "../pages/LoginPage/LoginPage.tsx";
+import RecipePage from "../pages/RecipePage/RecipePage.tsx";
+import UserPage from "../pages/UserPage/UserPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +16,7 @@ export const router = createBrowserRouter([
         path: AppRoutes.main,
         element: <MainPage />,
       },
+
       {
         path: AppRoutes.register,
         element: <RegisterPage />,
@@ -23,6 +26,14 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
       },
 
+      {
+        path: "/recipes/:id",
+        element: <RecipePage />,
+      },
+      {
+        path: "/users/:id",
+        element: <UserPage />,
+      },
 
       {
         path: AppRoutes.notFound,

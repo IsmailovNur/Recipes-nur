@@ -52,7 +52,7 @@ export const MainPage = () => {
             size={{
               xs: 12,
               sm: 6,
-              md: 4,
+              md: 3,
             }}
           >
             <RecipeCard recipe={recipe} />
