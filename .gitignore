@@ -1,0 +1,62 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+front/node_modules
+dist
+dist-ssr
+*.local
+.env
+
+# Tests
+api/coverage
+api/.nyc_output
+
+api/node_modules
+api/dist
+
+!api/public/images/*
+
+.idea
+DS_Store
+api/db.json
+api/public/images/*
+api/.env
+
+front/public/images/*
+!front/public/images/no-image.svg
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# dotenv environment variable files
+api/.env.development.local
+api/.env.test.local
+api/.env.production.local
+api/.env.local
+
+# temp directory
+api/.temp
+api/.tmp
+
+# Runtime data
+api/pids
+api/*.pid
+api/*.seed
+api/*.pid.lock
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+api/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
