@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { Recipe } from './types';
-import { fetchRecipe, fetchRecipes, fetchUserRecipes } from "./recipeThunk.ts";
+import {
+  createRecipe,
+  deleteRecipe,
+  fetchRecipe,
+  fetchRecipes,
+  fetchUserRecipes
+} from "./recipeThunk.ts";
 
 interface RecipeState {
   recipes: Recipe[];
@@ -23,24 +29,23 @@ const recipeSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(
-        fetchRecipes.pending, (state) => {
-          state.isLoading = true;
-          state.error = null;
-        })
+      .addCase(fetchRecipes.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
         state.recipes = action.payload;
       })
-      .addCase(
-        fetchRecipes.rejected, (state) => {
-          state.isLoading = false;
-          state.error = 'Failed to load recipes!';
-        })
+      .addCase(fetchRecipes.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Failed to load recipes!';
+      })
 
       .addCase(fetchRecipe.pending, (state) => {
         state.isLoading = true;
         state.error = null;
+        state.recipe = null;
       })
       .addCase(fetchRecipe.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -51,9 +56,44 @@ const recipeSlice = createSlice({
         state.error = 'Failed to load recipe!';
       })
 
+      .addCase(fetchUserRecipes.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchUserRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
         state.recipes = action.payload;
+      })
+      .addCase(fetchUserRecipes.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Failed to load user recipes!';
+      })
+
+      .addCase(createRecipe.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(createRecipe.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(createRecipe.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Failed to create recipe!';
+      })
+
+      .addCase(deleteRecipe.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteRecipe.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.recipes = state.recipes.filter(
+          (recipe) => recipe._id !== action.payload
+        );
+      })
+      .addCase(deleteRecipe.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Failed to delete recipe!';
       });
   },
 

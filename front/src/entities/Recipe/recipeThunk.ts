@@ -28,3 +28,30 @@ export const fetchUserRecipes = createAsyncThunk<Recipe[], string>(
     return response.data;
   }
 );
+
+export const createRecipe = createAsyncThunk<Recipe, {
+  title: string;
+  recipe: string;
+  image: File;
+}>(
+  'recipes/createRecipe',
+  async ({title, recipe, image}) => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('recipe', recipe);
+    formData.append('image', image);
+
+    const response = await axiosApi.post<Recipe>('/recipes', formData);
+
+    return response.data;
+  }
+);
+
+export const deleteRecipe = createAsyncThunk<string, string>(
+  'recipes/deleteRecipe',
+  async (id) => {
+    await axiosApi.delete(`/recipes/${id}`);
+
+    return id;
+  }
+);

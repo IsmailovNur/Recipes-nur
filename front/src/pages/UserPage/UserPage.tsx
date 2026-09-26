@@ -1,22 +1,37 @@
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Typography
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect } from "react";
 import { Spinner } from "../../shared/Spinner/Spinner";
-import { useParams } from "react-router-dom";
+import {
+  Link as RouterLink,
+  useParams
+} from "react-router-dom";
 import {
   selectRecipeError,
   selectRecipeLoading,
   selectRecipes
 } from "../../entities/Recipe/recipeSlice";
-import { fetchUserRecipes } from "../../entities/Recipe/recipeThunk";
+import {
+  deleteRecipe,
+  fetchUserRecipes
+} from "../../entities/Recipe/recipeThunk";
 import { RecipeCard } from "../../entities/Recipe/RecipeCard.tsx";
+import { selectUser } from "../../entities/User/userSlice.ts";
+import { toast } from "react-toastify";
 
 const UserPage = () => {
   const {id} = useParams();
   const dispatch = useAppDispatch();
+
   const recipes = useAppSelector(selectRecipes);
   const loading = useAppSelector(selectRecipeLoading);
   const error = useAppSelector(selectRecipeError);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     if (id) {
@@ -24,7 +39,26 @@ const UserPage = () => {
     }
   }, [dispatch, id]);
 
-  if (loading) return <Spinner isLoading />;
+  const deleteHandler = async (
+    recipeId: string
+  ) => {
+    try {
+      await dispatch(
+        deleteRecipe(recipeId)
+      ).unwrap();
+
+      toast.success("Recipe deleted!");
+    } catch (error) {
+      console.log(
+        "Delete recipe error",
+        error
+      );
+    }
+  };
+
+  if (loading) {
+    return <Spinner isLoading />;
+  }
 
   if (error) {
     return (
@@ -34,13 +68,40 @@ const UserPage = () => {
     );
   }
 
-  const displayName = recipes[0]?.author.displayName || "User";
+  const displayName =
+    recipes[0]?.author.displayName || "User";
+
+  const isAuthor =
+    Boolean(
+      user &&
+      id &&
+      user._id === id
+    );
 
   return (
     <Box>
-      <Typography variant="h5" sx={{mb: 3}}>
-        {displayName}'s recipes
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
+        <Typography variant="h5">
+          {displayName}'s recipes
+        </Typography>
+
+        {isAuthor && (
+          <Button
+            component={RouterLink}
+            to="/recipes/new"
+            variant="contained"
+          >
+            Add new recipe
+          </Button>
+        )}
+      </Box>
 
       <Grid container spacing={3}>
         {recipes.map((recipe) => (
@@ -52,12 +113,18 @@ const UserPage = () => {
               md: 3,
             }}
           >
-            <RecipeCard recipe={recipe} />
+            <RecipeCard
+              recipe={recipe}
+              showDelete={isAuthor}
+              onDelete={() =>
+                void deleteHandler(recipe._id)
+              }
+            />
           </Grid>
         ))}
       </Grid>
-
     </Box>
   );
 };
-export default UserPage
+
+export default UserPage;
