@@ -51,6 +51,12 @@ commentsRouter.post("/", auth, async (req: RequestWithUser, res) => {
       return res.status(400).send({error: 'Invalid text message!',});
     }
 
+    const recipe = await Recipe.findById(recipeId);
+
+    if (!recipe) {
+      return res.status(404).send({error: 'Recipe not found!'});
+    }
+
     const comment = await Comment.create({
       author: req.user!._id,
       recipe: recipeId,

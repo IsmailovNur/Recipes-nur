@@ -1,4 +1,4 @@
-export interface IRecipe {
+export interface Recipe {
   author: string;
   title: string;
   image: File | null;
