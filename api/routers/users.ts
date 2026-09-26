@@ -35,9 +35,7 @@ usersRouter.post(
         username: username.trim(),
         password,
         displayName: displayName.trim(),
-        avatar: req.file
-          ? "images/" + req.file.filename
-          : null,
+        avatar: req.file ? "images/" + req.file.filename : null,
       });
 
       user.generateToken();

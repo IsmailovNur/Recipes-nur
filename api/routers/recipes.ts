@@ -21,7 +21,6 @@ recipesRouter.get('/', authOptional, async (req: RequestWithUser, res) => {
       filter.author = author;
     }
 
-
     const recipes = await Recipe.find(filter).populate('author', 'displayName');
     return res.send(recipes);
 
@@ -39,7 +38,7 @@ recipesRouter.get('/:id', authOptional, async (req: RequestWithUser, res) => {
       return res.status(400).send({error: "Invalid recipe ID!"});
     }
 
-    const recipe = await Recipe.findOne().populate('author', 'displayName');
+    const recipe = await Recipe.findById(id).populate('author', 'displayName');
 
     if (!recipe || !recipe.author) {
       return res.status(404).send({error: 'Recipe not found!'});
@@ -89,7 +88,34 @@ recipesRouter.post(
       }
       return res.status(500).send({error: 'Server error!'});
     }
+  });
 
-  })
+recipesRouter.delete(
+  '/:id',
+  auth,
+  async (req: RequestWithUser, res) => {
+    try {
+      const {id} = req.params;
+
+      if (!Types.ObjectId.isValid(id as string)) {
+        return res.status(400).send({error: "Invalid recipe ID!"});
+      }
+
+      const recipe = await Recipe.findById(id);
+      if (!recipe) {
+        return res.status(404).send({error: "Recipe not found!"});
+      }
+
+      if (recipe.author.toString() !== req.user!._id.toString()) {
+        return res.status(403).send({error: 'You can delete only your own recipes!',});
+      }
+      await recipe.deleteOne();
+      return res.send({message: "Recipe deleted!"});
+
+    } catch (err) {
+      return res.status(500).send({error: 'Server error!'});
+    }
+  });
+
 
 export default recipesRouter;

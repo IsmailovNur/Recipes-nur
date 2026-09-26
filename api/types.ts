@@ -22,6 +22,13 @@ export interface IUser {
   generateToken(): void;
 }
 
+export interface IComment {
+  author: Types.ObjectId;
+  recipe: Types.ObjectId;
+  text: string;
+  createdAt: Date;
+}
+
 export interface RequestWithUser extends Request {
   user?: HydratedDocument<IUser>;
 }
