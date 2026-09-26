@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { store } from "../../app/store.ts";
 
-export const apiURL = 'http://localhost:8000';
+export const apiURL = 'http://localhost:8080';
 
 const axiosApi = axios.create({
   baseURL: apiURL,
