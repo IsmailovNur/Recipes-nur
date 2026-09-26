@@ -3,6 +3,7 @@ import config from './config';
 import { User } from "./models/User";
 import { randomUUID } from "node:crypto";
 import { Recipe } from "./models/Recipe";
+import { Comment } from "./models/Comment";
 
 const run = async () => {
   await mongoose.connect(config.mongoDbUrl);
@@ -11,6 +12,7 @@ const run = async () => {
   try {
     await db.dropCollection('users');
     await db.dropCollection('recipes');
+    await db.dropCollection('comments');
 
   } catch {
     console.log('Collection were not present, skipping drop!');
@@ -31,7 +33,7 @@ const run = async () => {
     },
   ]);
 
-  await Recipe.create([
+  const [recipe1, recipe2, recipe3] = await Recipe.create([
     {
       author: user1._id,
       title: 'Паста Карбонара',
@@ -49,6 +51,24 @@ const run = async () => {
       title: 'Салат Цезарь',
       recipe: '1. Обжарить куриное филе. 2. Нарезать салат и сухарики. 3. Заправить соусом Цезарь.',
       image: 'images/no-image.svg',
+    },
+  ]);
+
+  await Comment.create([
+    {
+      author: user1._id,
+      recipe: recipe1._id,
+      text: 'Мой фирменный рецепт карбонары!',
+    },
+    {
+      author: user2._id,
+      recipe: recipe2._id,
+      text: 'Борщ классический, для всей семьи',
+    },
+    {
+      author: user1._id,
+      recipe: recipe3._id,
+      text: 'Цезарь отличный сытный салат!',
     },
   ]);
 
