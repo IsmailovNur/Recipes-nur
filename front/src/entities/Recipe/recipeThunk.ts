@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { Recipe } from "./types.ts";
 import axiosApi from "../../shared/axios/AxiosApi.ts";
 
-
 export const fetchRecipes = createAsyncThunk<Recipe[]>(
   'recipes/fetchRecipes',
   async () => {
@@ -12,7 +11,6 @@ export const fetchRecipes = createAsyncThunk<Recipe[]>(
   }
 );
 
-
 export const fetchRecipe = createAsyncThunk<Recipe, string>(
   'recipes/fetchRecipe',
   async (id) => {
@@ -21,7 +19,6 @@ export const fetchRecipe = createAsyncThunk<Recipe, string>(
     return response.data;
   }
 );
-
 
 export const fetchUserRecipes = createAsyncThunk<Recipe[], string>(
   'recipes/fetchUserRecipes',
